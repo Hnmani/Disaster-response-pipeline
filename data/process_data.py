@@ -11,10 +11,10 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
-    categories = df['categories'].str.spilt(expand = True)
+    categories = df['categories'].str.split(expand = True)
     categories.columns = list(map(lambda x: x.split('-')[0].strip(), categories.loc[0]))
     for cols in categories.columns:
-        categories[cols] = categories[cols].str.split('-').str[1].strip()
+        categories[cols] = categories[cols].str.split('-').str[1]
     df = pd.concat([df, categories], axis = 1)
     df.drop(columns = ['categories'], inplace = True)
 
