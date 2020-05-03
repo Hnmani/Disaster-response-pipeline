@@ -11,7 +11,7 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
-    categories = df['categories'].str.split(expand = True)
+    categories = df['categories'].str.split(';',expand = True)
     categories.columns = list(map(lambda x: x.split('-')[0].strip(), categories.loc[0]))
     for cols in categories.columns:
         categories[cols] = categories[cols].str.split('-').str[1]
@@ -26,7 +26,7 @@ def clean_data(df):
 
 def save_data(df, database_filename):
     engine = create_engine("sqlite:///" + database_filename)
-    df.to_sql(database_filename, engine, index = False)
+    df.to_sql("DisasterResponse", engine, index = False)
 
 
 def main():
@@ -40,7 +40,7 @@ def main():
 
         print('Cleaning data...')
         df = clean_data(df)
-        
+
         print('Saving data...\n    DATABASE: {}'.format(database_filepath))
         save_data(df, database_filepath)
         
