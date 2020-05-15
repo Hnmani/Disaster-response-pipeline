@@ -4,6 +4,12 @@ from sqlalchemy import create_engine
 
 
 def load_data(messages_filepath, categories_filepath):
+    """
+    Loads the data
+    :param messages_filepath: message filepath must be .csv
+    :param categories_filepath: categories filepath must be .csv
+    :return: merged Dataframe
+    """
     message = pd.read_csv(messages_filepath)
     categories = pd.read_csv(categories_filepath)
     df = pd.merge(message, categories, on = ['id'])
@@ -11,6 +17,12 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
+    """
+    This function cleans the data. It converts all the categories into columns
+    drop duplicates.
+    :param df: dataframe to be cleaned
+    :return: cleaned dataframe
+    """
     categories = df['categories'].str.split(';',expand = True)
     categories.columns = list(map(lambda x: x.split('-')[0].strip(), categories.loc[0]))
     for cols in categories.columns:
@@ -25,11 +37,23 @@ def clean_data(df):
 
 
 def save_data(df, database_filename):
+    """
+    saves the dataframe to sqlite database.
+    :param df: dataframe to be saved as database
+    :param database_filename: filename of the database
+    :return: None
+    """
     engine = create_engine("sqlite:///" + database_filename)
     df.to_sql("DisasterResponse", engine, index = False)
 
 
 def main():
+    """
+    This is the main function which performs all task by calling the functions also indicates the
+    state of execution.
+    :return:
+    pass
+    """
     if len(sys.argv) == 4:
 
         messages_filepath, categories_filepath, database_filepath = sys.argv[1:]

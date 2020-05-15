@@ -73,16 +73,16 @@ def build_model():
             max_features=0.3,
             min_samples_split=4
         )))])
-    #
-    # parameters = {
-    #     'moc__estimator__min_samples_split': (3, 4),
-    #     'moc__estimator__max_features': ('sqrt', 0.3),
-    #     'moc__estimator__max_depth': (3, 5),
-    #     'moc__estimator__criterion': ('gini','entropy'),
-    # }
-    #
-    #
-    # cv = GridSearchCV(pipeline, param_grid=parameters,verbose= 10)
+
+    parameters = {
+        'moc__estimator__min_samples_split': (3, 4),
+        'moc__estimator__max_features': ('sqrt', 0.3),
+        'moc__estimator__max_depth': (3, 5),
+        'moc__estimator__criterion': ('gini','entropy'),
+    }
+
+
+    cv = GridSearchCV(pipeline, param_grid=parameters,verbose= 10)
 
     return pipeline
 
