@@ -47,6 +47,15 @@ def load_data(database_filepath):
 
 
 def tokenize(text):
+    """
+    Tokenizes the input text
+
+    Arguments:
+        text {[string]} -- [text to be tokenized]
+
+    Returns:
+        [list] -- [clean tokenized list of strings]
+    """
     stop_words = list(stopwords.words("english"))
     text = text.lower()
     text = re.sub(r"[^a-z0-9]"," ",text)
@@ -59,7 +68,11 @@ def tokenize(text):
 
 
 def build_model():
+    """Build model
 
+    Returns:
+        [GridSearch] -- [Grid Search]
+    """
 
     pipeline = Pipeline([
         ('vect' , CountVectorizer(tokenizer = tokenize)),
@@ -84,7 +97,7 @@ def build_model():
 
     cv = GridSearchCV(pipeline, param_grid=parameters,verbose= 10)
 
-    return pipeline
+    return cv
 
 
 def evaluate_model(model, X_test, y_test, category_names):
