@@ -1,5 +1,5 @@
 # Disaster Response Pipeline Project
-=======
+
 This project uses data set containing real messages that were sent during disaster events. This project contains a web app where an emergency worker can input a new message and get classification results in several categories. The web app also displays visualizations of the data.
 
 ### Here are some Screen Shots
