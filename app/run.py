@@ -11,7 +11,6 @@ from plotly.graph_objs import Bar
 from sklearn.externals import joblib
 from sqlalchemy import create_engine
 
-
 app = Flask(__name__)
 
 def tokenize(text):
@@ -42,6 +41,23 @@ def index():
     # TODO: Below is an example - modify to extract data for your own visuals
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
+
+    cols = [
+            'request', 'offer', 'aid_related', 'medical_help', 'medical_products',
+            'search_and_rescue', 'security', 'military', 'child_alone', 'water',
+            'food', 'shelter', 'clothing', 'money', 'missing_people', 'refugees',
+            'death', 'other_aid', 'infrastructure_related', 'transport',
+            'buildings', 'electricity', 'tools', 'hospitals', 'shops',
+            'aid_centers', 'other_infrastructure', 'weather_related', 'floods',
+            'storm', 'fire', 'earthquake', 'cold', 'other_weather',
+            'direct_report']
+    count = []
+    for col in cols:
+        c = 0
+        for i in df[col]:
+            if i=='1':
+                c += 1
+        count.append(c)
     
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
@@ -61,6 +77,25 @@ def index():
                 },
                 'xaxis': {
                     'title': "Genre"
+                }
+            }
+        },
+        {
+            'data': [
+                Bar(
+                    y = cols,
+                    x = count,
+                    orientation = 'h'
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Message Categories',
+                'yaxis': {
+                    'title': "Column"
+                },
+                'xaxis': {
+                    'title': "Count"
                 }
             }
         }
